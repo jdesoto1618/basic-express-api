@@ -42,4 +42,24 @@ router.post("/", (req, res) => {
   res.json(members);
 });
 
+router.put("/:id", (req, res) => {
+  const memberExists = members.some(
+    (member) => member.id === parseInt(req.params.id, 10)
+  );
+
+  if (!memberExists) {
+    res.status(400).json({ error: `Member ${req.params.id} not found` });
+    return false;
+  } else {
+    const updateMember = req.body;
+    members.forEach((member) => {
+      if (member.id === parseInt(req.params.id, 10)) {
+        member.name = updateMember.name ? updateMember.name : member.name;
+        member.email = updateMember.email ? updateMember.email : member.email;
+        res.json({ success: `Updated info for ${member.name}`, member });
+      }
+    });
+  }
+});
+
 module.exports = router;
