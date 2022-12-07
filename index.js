@@ -2,10 +2,18 @@ const express = require("express");
 const app = express();
 const port = process.env.port || 4000;
 const path = require("path");
+const hbs = require("express-handlebars");
+
+// handlebars middleware
+app.engine("handlebars", hbs.engine({ defaultLayout: "main" }));
+app.set("view engine", "handlebars");
+app.set("views", "./views");
 
 app.use(express.json());
 
 app.use(express.urlencoded({ extended: false }));
+
+app.get("/", (req, res) => res.render("index"));
 
 app.use(express.static(path.join(__dirname, "public")));
 
