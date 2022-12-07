@@ -3,6 +3,7 @@ const app = express();
 const port = process.env.port || 4000;
 const path = require("path");
 const hbs = require("express-handlebars");
+const members = require("./Members");
 
 // handlebars middleware
 app.engine("handlebars", hbs.engine({ defaultLayout: "main" }));
@@ -13,7 +14,12 @@ app.use(express.json());
 
 app.use(express.urlencoded({ extended: false }));
 
-app.get("/", (req, res) => res.render("index"));
+app.get("/", (req, res) =>
+  res.render("index", {
+    title: "Member Application",
+    members,
+  })
+);
 
 app.use(express.static(path.join(__dirname, "public")));
 
